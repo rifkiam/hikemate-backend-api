@@ -20,6 +20,35 @@ model Users {
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  
+  posts Posts[]
+  User_likes_posts User_likes_posts[]
+}
+
+model User_likes_posts {
+  id  Int @id
+  
+  user  Users    @relation(fields: [user_id], references: [id])
+  user_id String
+
+  post  Posts    @relation(fields: [post_id], references: [id])
+  post_id String
+}
+
+model Posts {
+  id  String  @id @default(uuid())
+  title String  @db.VarChar(100)
+  content String @db.Text
+  place String @db.VarChar(100)
+  file_path String  @db.VarChar(255)
+  
+  user  Users    @relation(fields: [user_id], references: [id])
+  user_id String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  User_likes_posts User_likes_posts[]
 }
 
 enum UserType {
