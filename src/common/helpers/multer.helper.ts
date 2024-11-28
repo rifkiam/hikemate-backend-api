@@ -3,7 +3,7 @@ import path from 'path';
 
 import { CustomException } from '../response/CustomException';
 
-export default function saveFile(
+export function saveFile(
     folderPath: string,
     file: Express.Multer.File,
     fileNamePrefix?: string,
@@ -34,5 +34,15 @@ export default function saveFile(
         return 'uploads/' + folderPath + finalFileName;
     } catch (e) {
         throw new CustomException('Error in saving file: ' + e, 500);
+    }
+}
+
+export function deleteFile(fullPath: string) {
+    try {
+        const fp = path.join(__dirname, '..', '..', '..', 'storage', fullPath);
+
+        fs.rmSync(fp);
+    } catch (e) {
+        throw new CustomException('Error in deleting file: ' + e, 500);
     }
 }

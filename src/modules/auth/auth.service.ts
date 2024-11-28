@@ -63,7 +63,7 @@ export class AuthService {
                 name,
                 email,
                 password: hashedPassword,
-                user_type: 'ADMIN',
+                user_type: 'USER',
             },
         });
 

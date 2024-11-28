@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class PostDto {
     @ApiProperty({
@@ -22,10 +22,27 @@ export class PostDto {
     @IsString()
     @IsNotEmpty()
     place: string;
+}
 
-    // @ApiProperty({
-    //     description: 'File to upload preferably an image'
-    // })
-    // @IsNotEmpty()
-    // file: Express.Multer.File;
+export class PatchDto {
+    @ApiProperty({
+        example: 'Post Title',
+    })
+    @IsString()
+    @IsOptional()
+    title: string;
+
+    @ApiProperty({
+        example: 'Content',
+    })
+    @IsString()
+    @IsOptional()
+    content: string;
+
+    @ApiProperty({
+        example: 'Gunung Lawu',
+    })
+    @IsString()
+    @IsOptional()
+    place: string;
 }
