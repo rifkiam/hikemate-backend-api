@@ -1,16 +1,20 @@
 [
   {
     "name": "Testing User",
-    "username": "testinguser",
     "email": "testuser@mail.com",
     "password": "password",
+    "birth_date": "2003-12-01T00:00:00.000Z",
+    "country": "Indonesia",
+    "image_path": "uploads/user/profile/user_profile.png",
     "user_type": "USER"
   },
   {
     "name": "Testing Admin",
-    "username": "testingadmin",
     "email": "testadmin@mail.com",
     "password": "password",
+    "birth_date": "2003-12-01T00:00:00.000Z",
+    "country": "Indonesia",
+    "image_path": "uploads/user/profile/user_profile.png",
     "user_type": "ADMIN"
   }
 ]

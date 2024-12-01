@@ -46,6 +46,15 @@ import { AppService } from './app.service';
             ), // Path to the folder
             serveRoot: '/uploads/user/posts', // URL alias
         }),
+        ServeStaticModule.forRoot({
+            rootPath: path.join(
+                __dirname,
+                '..',
+                '..',
+                'storage/uploads/user/profile',
+            ), // Path to the folder
+            serveRoot: '/uploads/user/profile', // URL alias
+        }),
         AuthModule,
         PostsModule,
     ],

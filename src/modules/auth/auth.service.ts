@@ -36,18 +36,18 @@ export class AuthService {
 
         return {
             access_token: this.jwtService.sign({
-                username: user.username,
+                email: user.email,
                 id: user.id,
             }),
         };
     }
 
     async register(registerDto: RegisterDto) {
-        const { username, name, email, password } = registerDto;
+        const { name, email, password, birth_date, country } = registerDto;
 
         const user = await this.prismaService.users.findUnique({
             where: {
-                username: username,
+                email,
             },
         });
 
@@ -59,17 +59,18 @@ export class AuthService {
 
         const newUser = await this.prismaService.users.create({
             data: {
-                username,
                 name,
                 email,
                 password: hashedPassword,
+                birth_date,
+                country,
                 user_type: 'USER',
             },
         });
 
         return {
             access_token: this.jwtService.sign({
-                username: newUser.username,
+                email: newUser.email,
                 id: newUser.id,
             }),
         };
@@ -83,11 +84,16 @@ export class AuthService {
             },
         });
 
-        const { username, user_type } = user;
+        const { name, country, birth_date, email, user_type, image_path } =
+            user;
         return {
-            username,
             id: user_id,
+            name,
+            email,
+            country,
+            birth_date,
             role: user_type,
+            image_path: process.env.APP_URL + image_path,
         };
     }
 }

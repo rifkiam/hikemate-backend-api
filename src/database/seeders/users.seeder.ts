@@ -10,10 +10,12 @@ export default async function usersSeeder() {
         const user = userData[idx];
         const userUpsert: Prisma.UsersCreateInput = {
             name: user.name,
-            username: user.username,
             email: user.email,
             password: await hashPassword(user.password),
+            birth_date: user.birth_date,
+            country: user.country,
             user_type: user.user_type == 'ADMIN' ? UserType.ADMIN : 'USER',
+            image_path: user.image_path,
         };
 
         await prisma.users.create({
