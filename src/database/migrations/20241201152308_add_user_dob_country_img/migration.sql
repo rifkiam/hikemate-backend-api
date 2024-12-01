@@ -7,7 +7,7 @@
 
 */
 -- DropIndex
-DROP INDEX `Users_username_key` ON `users`;
+DROP INDEX `Users_username_key` ON `Users`;
 
 -- AlterTable
 ALTER TABLE `Users` DROP COLUMN `username`,
