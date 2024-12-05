@@ -65,6 +65,7 @@ export class AuthService {
                 birth_date,
                 country,
                 user_type: 'USER',
+                image_path: 'uploads/user/profile/user_profile.png',
             },
         });
 

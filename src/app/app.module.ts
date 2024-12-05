@@ -11,7 +11,9 @@ import { ResponseInterceptor } from '@/common/interceptors/response.interceptor'
 // ## Child modules ##
 // ###################
 import { AuthModule } from '@/modules/auth';
+import { HikespotsModule } from '@/modules/hikespots';
 import { PostsModule } from '@/modules/posts';
+import { SosModule } from '@/modules/sos';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -57,6 +59,8 @@ import { AppService } from './app.service';
         }),
         AuthModule,
         PostsModule,
+        SosModule,
+        HikespotsModule,
     ],
     controllers: [AppController],
     providers: [

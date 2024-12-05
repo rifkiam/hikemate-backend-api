@@ -11,46 +11,74 @@ datasource db {
 }
 
 model Users {
-  id        String   @id @default(uuid())
-  name      String   @db.VarChar(100)
-  email     String   @unique @db.VarChar(100)
-  password  String   @db.VarChar(100)
-  birth_date  DateTime  @db.Date
-  country String  @db.VarChar(50)
-  image_path String?  @db.VarChar(255)
-  user_type UserType
+  id                String    @id @default(uuid())
+  name              String    @db.VarChar(100)
+  email             String    @unique @db.VarChar(100)
+  password          String    @db.VarChar(100)
+  birth_date        DateTime  @db.Date
+  country           String    @db.VarChar(50)
+  image_path        String?   @db.VarChar(255)
+  user_type         UserType
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
   
-  posts Posts[]
-  User_likes_posts User_likes_posts[]
+  Posts             Posts[]
+  User_likes_posts  User_likes_posts[]
+  Sos_alerts        Sos_alerts[]
 }
 
 model User_likes_posts {
-  id  Int @id
+  id      Int       @id
   
-  user  Users    @relation(fields: [user_id], references: [id])
+  user    Users     @relation(fields: [user_id], references: [id])
   user_id String
 
-  post  Posts    @relation(fields: [post_id], references: [id])
+  post    Posts     @relation(fields: [post_id], references: [id])
   post_id String
 }
 
 model Posts {
-  id  String  @id @default(uuid())
-  title String  @db.VarChar(100)
-  content String @db.Text
-  place String @db.VarChar(100)
-  file_path String  @db.VarChar(255)
+  id                String    @id @default(uuid())
+  title             String    @db.VarChar(100)
+  content           String    @db.Text
+  place             String    @db.VarChar(100)
+  file_path         String    @db.VarChar(255)
   
-  user  Users    @relation(fields: [user_id], references: [id])
-  user_id String
+  user              Users     @relation(fields: [user_id], references: [id])
+  user_id           String
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
 
-  User_likes_posts User_likes_posts[]
+  User_likes_posts  User_likes_posts[]
+}
+
+model Sos_alerts {
+  id                String    @id @default(uuid())
+  lat               String    @db.VarChar(24)
+  long              String    @db.VarChar(24)
+  place             String    @db.VarChar(100)
+  message           String    @db.VarChar(255)
+  chat_id           String    @db.VarChar(20)
+
+  user              Users     @relation(fields: [user_id], references: [id])
+  user_id           String
+
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+}
+
+model Hike_spots {
+  id                String    @id @default(uuid())
+  lat               String    @db.VarChar(24)
+  long              String    @db.VarChar(24)
+  place             String    @db.VarChar(100)
+  chat_id           String    @db.VarChar(20) @unique
+  phone_number      String    @db.VarChar(15) @unique
+
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
 }
 
 enum UserType {

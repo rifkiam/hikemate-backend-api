@@ -1,0 +1,45 @@
+import {
+    Body,
+    Controller,
+    Get,
+    HttpCode,
+    Post,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
+
+import { ResponseMessage } from '@/common/decorators/responseMessage.decorator';
+import { Roles } from '@/common/decorators/roles.decorator';
+import { JwtAuthGuard } from '@/common/guards/jwt';
+import { RoleGuard } from '@/common/guards/roles/role.guard';
+
+import { HikespotDto } from './dtos/hikespot.dto';
+import { HikespotsService } from './hikespots.service';
+
+@Controller('hikespots')
+export class HikespotsController {
+    constructor(private readonly hikespotsService: HikespotsService) {}
+
+    @Post('')
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @ApiBearerAuth()
+    @Roles('ADMIN')
+    @HttpCode(201)
+    @ResponseMessage('Successfully created a Hikespot Post')
+    async create(@Body() createHikespotDto: HikespotDto) {
+        const response = await this.hikespotsService.create(createHikespotDto);
+        return response;
+    }
+
+    @Get('/:lat/:long')
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @ApiBearerAuth()
+    @Roles('USER')
+    @HttpCode(200)
+    @ResponseMessage('Successfully fetched a post')
+    async findNearest(@Query('lat') lat: string, @Query('long') long: string) {
+        const response = this.hikespotsService.findNearestPost(lat, long);
+        return response;
+    }
+}
