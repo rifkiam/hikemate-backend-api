@@ -40,7 +40,7 @@ export class HikespotsService {
                 spotLat,
                 spotLong,
             );
-            return distance <= 75;
+            return distance <= 100;
         });
 
         if (nearestSpots) {

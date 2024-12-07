@@ -3,8 +3,8 @@ import {
     Controller,
     Get,
     HttpCode,
+    Param,
     Post,
-    Query,
     UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -38,7 +38,7 @@ export class HikespotsController {
     @Roles('USER')
     @HttpCode(200)
     @ResponseMessage('Successfully fetched a post')
-    async findNearest(@Query('lat') lat: string, @Query('long') long: string) {
+    async findNearest(@Param('lat') lat: string, @Param('long') long: string) {
         const response = this.hikespotsService.findNearestPost(lat, long);
         return response;
     }
