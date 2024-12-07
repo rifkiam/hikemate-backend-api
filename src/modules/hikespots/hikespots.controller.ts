@@ -7,7 +7,7 @@ import {
     Post,
     UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { ResponseMessage } from '@/common/decorators/responseMessage.decorator';
 import { Roles } from '@/common/decorators/roles.decorator';
@@ -18,6 +18,7 @@ import { HikespotDto } from './dtos/hikespot.dto';
 import { HikespotsService } from './hikespots.service';
 
 @Controller('hikespots')
+@ApiTags('Hikespots')
 export class HikespotsController {
     constructor(private readonly hikespotsService: HikespotsService) {}
 

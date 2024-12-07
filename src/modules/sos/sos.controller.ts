@@ -6,7 +6,7 @@ import {
     Query,
     UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { ResponseMessage } from '@/common/decorators/responseMessage.decorator';
 import { Roles } from '@/common/decorators/roles.decorator';
@@ -18,6 +18,7 @@ import { SosDto } from './dtos/sos.dto';
 import { SosService } from './sos.service';
 
 @Controller('sos')
+@ApiTags('SOS')
 export class SosController {
     constructor(private readonly sosService: SosService) {}
 

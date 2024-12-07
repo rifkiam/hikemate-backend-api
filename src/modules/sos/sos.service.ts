@@ -10,9 +10,7 @@ import { SosDto } from './dtos/sos.dto';
 export class SosService {
     constructor(private readonly prismaService: PrismaService) {}
 
-    private readonly token: string =
-        '7611823220:AAGSyhIzZ9ZI8t8M6WPS7SvpVHtS70RllQM';
-    private readonly apiUrl: string = `https://api.telegram.org/bot${this.token}/sendMessage`;
+    private readonly apiUrl: string = `https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendMessage`;
 
     async sendAlert(chatId: string | number, user_id: string, sosDto: SosDto) {
         const user = await this.prismaService.users.findFirst({
@@ -20,7 +18,7 @@ export class SosService {
             select: { name: true },
         });
 
-        const message = `Nama: ${user.name}\nLat: ${sosDto.lat}\nLong: ${sosDto.long}\nTempat: ${sosDto.place}\n${sosDto.message}`;
+        const message = `Nama: ${user.name}\nLatitude: ${sosDto.lat}\nLongitude: ${sosDto.long}\nKetinggian: ${sosDto.height}\nTempat: ${sosDto.place}\n${sosDto.message}`;
 
         try {
             await axios.post(this.apiUrl, { chat_id: chatId, text: message });

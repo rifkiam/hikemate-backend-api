@@ -24,7 +24,7 @@ export class BotService implements OnModuleInit {
             ctx.reply(
                 `Welcome to Hikemate Bot! Here are the commands you can use:
         \n/add_hikespot - Add a new hike spot
-        \n/delete_hikespot - Delete hike spot in existing chat
+        \n/delete_hikespot - Delete hike spot in existing chat / group
         \n/help - List available commands`,
             );
         });
@@ -37,6 +37,14 @@ export class BotService implements OnModuleInit {
         this.bot.command('delete_hikespot', async (ctx) => {
             ctx.reply('Are you sure? (Y/N)');
             this.handleDeleteHikespotInChat(ctx);
+        });
+
+        this.bot.command('help', async (ctx) => {
+            ctx.reply(
+                `/add_hikespot - Add a new hike spot
+        \n/delete_hikespot - Delete hike spot in existing chat / group
+        \n/help - List available commands`,
+            );
         });
     }
 

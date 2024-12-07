@@ -12,7 +12,7 @@ import {
     UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 
 import { ResponseMessage } from '@/common/decorators/responseMessage.decorator';
 import { Roles } from '@/common/decorators/roles.decorator';
@@ -25,6 +25,7 @@ import { PatchDto, PostDto } from './dtos/post.dto';
 import { PostsService } from './posts.service';
 
 @Controller('posts')
+@ApiTags('Posts')
 export class PostsController {
     constructor(private readonly postsService: PostsService) {}
 
