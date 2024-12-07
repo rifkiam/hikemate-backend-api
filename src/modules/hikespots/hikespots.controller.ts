@@ -22,6 +22,17 @@ import { HikespotsService } from './hikespots.service';
 export class HikespotsController {
     constructor(private readonly hikespotsService: HikespotsService) {}
 
+    @Get('')
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @ApiBearerAuth()
+    @Roles('USER', 'ADMIN')
+    @HttpCode(200)
+    @ResponseMessage('Successfully fetched all hikespots')
+    async getAllHikespots() {
+        const response = await this.hikespotsService.getAllHikespots();
+        return response;
+    }
+
     @Post('')
     @UseGuards(JwtAuthGuard, RoleGuard)
     @ApiBearerAuth()

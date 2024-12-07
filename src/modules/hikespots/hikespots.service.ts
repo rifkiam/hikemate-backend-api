@@ -11,6 +11,21 @@ export class HikespotsService {
         // private readonly botService: BotService
     ) {}
 
+    async getAllHikespots() {
+        const hikespots = await this.prismaService.hike_spots.findMany({
+            select: {
+                id: true,
+                place: true,
+                lat: true,
+                long: true,
+                chat_id: true,
+                phone_number: true,
+            },
+        });
+
+        return hikespots;
+    }
+
     async create(hikespotDto: HikespotDto) {
         const hikespot = await this.prismaService.hike_spots.create({
             data: {
