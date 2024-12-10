@@ -13,13 +13,42 @@ export class PostsService {
     async getAllPosts() {
         const posts = await this.prismaService.posts.findMany({
             orderBy: { created_at: 'desc' },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        image_path: true,
+                    },
+                },
+                _count: {
+                    select: {
+                        User_likes_posts: true,
+                    },
+                },
+            },
         });
+
         return posts;
     }
 
     async getPostById(id: string) {
         const post = await this.prismaService.posts.findFirst({
             where: { id },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        image_path: true,
+                    },
+                },
+                _count: {
+                    select: {
+                        User_likes_posts: true,
+                    },
+                },
+            },
         });
         return post;
     }

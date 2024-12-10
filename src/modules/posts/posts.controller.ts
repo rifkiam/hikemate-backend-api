@@ -37,7 +37,24 @@ export class PostsController {
     @ResponseMessage('Posts successfully fetched!')
     async getAllPosts() {
         const response = await this.postsService.getAllPosts();
-        return response;
+
+        const parsedResponse = response.map((item) => {
+            return {
+                id: item.id,
+                title: item.title,
+                content: item.content,
+                place: item.place,
+                file_path: item.file_path,
+                likes: item._count.User_likes_posts,
+                created_at: item.created_at,
+                updated_at: item.updated_at,
+                user_id: item.user_id,
+                user_name: item.user.name,
+                user_profile: item.user.image_path,
+            };
+        });
+
+        return parsedResponse;
     }
 
     @Get('/:id')
@@ -48,7 +65,22 @@ export class PostsController {
     @ResponseMessage('Posts successfully fetched!')
     async getPostById(@Query('id') id: string) {
         const response = await this.postsService.getPostById(id);
-        return response;
+
+        const parsedResponse = {
+            id: response.id,
+            title: response.title,
+            content: response.content,
+            place: response.place,
+            file_path: response.file_path,
+            likes: response._count.User_likes_posts,
+            created_at: response.created_at,
+            updated_at: response.updated_at,
+            user_id: response.user_id,
+            user_name: response.user.name,
+            user_profile: response.user.image_path,
+        };
+
+        return parsedResponse;
     }
 
     @Post('')
