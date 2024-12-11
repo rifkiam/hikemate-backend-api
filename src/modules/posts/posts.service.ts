@@ -21,6 +21,11 @@ export class PostsService {
                         image_path: true,
                     },
                 },
+                User_likes_posts: {
+                    select: {
+                        user_id: true,
+                    },
+                },
                 _count: {
                     select: {
                         User_likes_posts: true,
@@ -41,6 +46,11 @@ export class PostsService {
                         id: true,
                         name: true,
                         image_path: true,
+                    },
+                },
+                User_likes_posts: {
+                    select: {
+                        user_id: true,
                     },
                 },
                 _count: {
@@ -134,12 +144,27 @@ export class PostsService {
     async likePost(userId: string, postId: string) {
         const count = await this.prismaService.user_likes_posts.count();
 
-        await this.prismaService.user_likes_posts.create({
-            data: {
-                id: count + 1,
-                post_id: postId,
+        const existing = await this.prismaService.user_likes_posts.findFirst({
+            where: {
                 user_id: userId,
+                post_id: postId,
             },
         });
+
+        if (!existing) {
+            await this.prismaService.user_likes_posts.create({
+                data: {
+                    id: count + 1,
+                    post_id: postId,
+                    user_id: userId,
+                },
+            });
+        } else {
+            await this.prismaService.user_likes_posts.delete({
+                where: {
+                    id: existing.id,
+                },
+            });
+        }
     }
 }

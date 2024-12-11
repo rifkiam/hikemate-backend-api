@@ -35,7 +35,7 @@ export class PostsController {
     @Roles('USER')
     @HttpCode(200)
     @ResponseMessage('Posts successfully fetched!')
-    async getAllPosts() {
+    async getAllPosts(@Token('id') userId: string) {
         const response = await this.postsService.getAllPosts();
 
         const parsedResponse = response.map((item) => {
@@ -46,6 +46,9 @@ export class PostsController {
                 place: item.place,
                 file_path: item.file_path,
                 likes: item._count.User_likes_posts,
+                liked: item.User_likes_posts.find((id) => id.user_id === userId)
+                    ? true
+                    : false,
                 created_at: item.created_at,
                 updated_at: item.updated_at,
                 user_id: item.user_id,
@@ -63,7 +66,7 @@ export class PostsController {
     @Roles('USER')
     @HttpCode(200)
     @ResponseMessage('Posts successfully fetched!')
-    async getPostById(@Param('id') id: string) {
+    async getPostById(@Token('id') userId: string, @Param('id') id: string) {
         const response = await this.postsService.getPostById(id);
 
         const parsedResponse = {
@@ -73,6 +76,9 @@ export class PostsController {
             place: response.place,
             file_path: response.file_path,
             likes: response._count.User_likes_posts,
+            liked: response.User_likes_posts.find((id) => id.user_id === userId)
+                ? true
+                : false,
             created_at: response.created_at,
             updated_at: response.updated_at,
             user_id: response.user_id,
@@ -136,7 +142,6 @@ export class PostsController {
     @ApiBearerAuth()
     @Roles('USER')
     @HttpCode(201)
-    @ResponseMessage('Liked a post')
     async likePost(@Token('id') userId: string, @Param('id') postId: string) {
         await this.postsService.likePost(userId, postId);
         return;
