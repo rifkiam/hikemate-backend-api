@@ -158,13 +158,23 @@ export class PostsService {
         });
 
         if (!existing) {
-            await this.prismaService.user_likes_posts.create({
-                data: {
-                    id: highestId.id + 1,
-                    post_id: postId,
-                    user_id: userId,
-                },
-            });
+            if (!highestId) {
+                await this.prismaService.user_likes_posts.create({
+                    data: {
+                        id: 1,
+                        post_id: postId,
+                        user_id: userId,
+                    },
+                });
+            } else {
+                await this.prismaService.user_likes_posts.create({
+                    data: {
+                        id: highestId.id + 1,
+                        post_id: postId,
+                        user_id: userId,
+                    },
+                });
+            }
         } else {
             await this.prismaService.user_likes_posts.delete({
                 where: {
