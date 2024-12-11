@@ -2,8 +2,8 @@ import {
     Body,
     Controller,
     HttpCode,
+    Param,
     Post,
-    Query,
     UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -30,7 +30,7 @@ export class SosController {
     @ResponseMessage('Successfully sent SOS message to telegram')
     async sendSosAlert(
         @Token('id') userId: string,
-        @Query('chat_id') chatId: string,
+        @Param('chat_id') chatId: string,
         @Body() sosDto: SosDto,
     ) {
         // const chat_id = '1321805661';
