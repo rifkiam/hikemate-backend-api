@@ -142,7 +142,14 @@ export class PostsService {
     }
 
     async likePost(userId: string, postId: string) {
-        const count = await this.prismaService.user_likes_posts.count();
+        const highestId = await this.prismaService.user_likes_posts.findFirst({
+            orderBy: {
+                created_at: 'desc',
+            },
+            where: {
+                post_id: postId,
+            },
+        });
 
         const existing = await this.prismaService.user_likes_posts.findFirst({
             where: {
@@ -154,7 +161,7 @@ export class PostsService {
         if (!existing) {
             await this.prismaService.user_likes_posts.create({
                 data: {
-                    id: count + 1,
+                    id: highestId.id + 1,
                     post_id: postId,
                     user_id: userId,
                 },

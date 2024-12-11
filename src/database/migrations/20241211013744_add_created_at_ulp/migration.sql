@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `user_likes_posts` ADD COLUMN `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
