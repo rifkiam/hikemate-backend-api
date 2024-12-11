@@ -130,4 +130,16 @@ export class PostsService {
 
         return {};
     }
+
+    async likePost(userId: string, postId: string) {
+        const count = await this.prismaService.user_likes_posts.count();
+
+        await this.prismaService.user_likes_posts.create({
+            data: {
+                id: count + 1,
+                post_id: postId,
+                user_id: userId,
+            },
+        });
+    }
 }

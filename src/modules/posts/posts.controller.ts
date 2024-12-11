@@ -4,9 +4,9 @@ import {
     Delete,
     Get,
     HttpCode,
+    Param,
     Patch,
     Post,
-    Query,
     UploadedFile,
     UseGuards,
     UseInterceptors,
@@ -63,7 +63,7 @@ export class PostsController {
     @Roles('USER')
     @HttpCode(200)
     @ResponseMessage('Posts successfully fetched!')
-    async getPostById(@Query('id') id: string) {
+    async getPostById(@Param('id') id: string) {
         const response = await this.postsService.getPostById(id);
 
         const parsedResponse = {
@@ -109,7 +109,7 @@ export class PostsController {
     @ResponseMessage('Post updated successfully')
     async updatePost(
         @Token('id') id: string,
-        @Query('id') postId: string,
+        @Param('id') postId: string,
         @Body() postDto: PatchDto,
     ) {
         const response = await this.postsService.updatePost(
@@ -126,8 +126,19 @@ export class PostsController {
     @Roles('USER')
     @HttpCode(200)
     @ResponseMessage('Post deleted successfully')
-    async deletePost(@Token('id') id: string, @Query('id') postId: string) {
+    async deletePost(@Token('id') id: string, @Param('id') postId: string) {
         const emp = await this.postsService.deletePost(id, postId);
         return emp;
+    }
+
+    @Patch('/like/:id')
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @ApiBearerAuth()
+    @Roles('USER')
+    @HttpCode(201)
+    @ResponseMessage('Liked a post')
+    async likePost(@Token('id') userId: string, @Param('id') postId: string) {
+        await this.postsService.likePost(userId, postId);
+        return;
     }
 }
