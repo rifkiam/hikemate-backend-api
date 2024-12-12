@@ -24,13 +24,6 @@ export class SosDto {
     height: string;
 
     @ApiProperty({
-        example: 'Gunung Lawu',
-    })
-    @IsString()
-    @IsNotEmpty()
-    place: string;
-
-    @ApiProperty({
         example: 'Tolong Kami!',
     })
     @IsString()

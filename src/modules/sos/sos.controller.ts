@@ -33,7 +33,6 @@ export class SosController {
         @Param('chat_id') chatId: string,
         @Body() sosDto: SosDto,
     ) {
-        // const chat_id = '1321805661';
         const response = await this.sosService.sendAlert(
             chatId,
             userId,

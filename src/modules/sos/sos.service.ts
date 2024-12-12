@@ -18,7 +18,7 @@ export class SosService {
             select: { name: true },
         });
 
-        const message = `Nama: ${user.name}\nLatitude: ${sosDto.lat}\nLongitude: ${sosDto.long}\nKetinggian: ${sosDto.height}\nTempat: ${sosDto.place}\n${sosDto.message}`;
+        const message = `Nama: ${user.name}\nLatitude: ${sosDto.lat}\nLongitude: ${sosDto.long}\nKetinggian: ${sosDto.height}\n${sosDto.message}`;
 
         try {
             await axios.post(this.apiUrl, { chat_id: chatId, text: message });
@@ -31,7 +31,7 @@ export class SosService {
                 user_id: user_id,
                 lat: sosDto.lat,
                 long: sosDto.long,
-                place: sosDto.place,
+                place: ' ',
                 message: sosDto.message,
                 chat_id: chatId as string,
             },
