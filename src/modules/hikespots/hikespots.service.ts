@@ -81,7 +81,7 @@ export class HikespotsService {
         const newDest = await this.prismaService.destinations.create({
             data: {
                 lat: destDto.lat,
-                long: destDto.lat,
+                long: destDto.long,
                 place: destDto.place,
                 mdpl: destDto.mdpl,
             },
