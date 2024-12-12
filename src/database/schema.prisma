@@ -83,6 +83,17 @@ model Hike_spots {
   updated_at        DateTime  @updatedAt
 }
 
+model Destinations {
+  id                String    @id @default(uuid())
+  lat               String    @db.VarChar(24)
+  long              String    @db.VarChar(24)
+  mdpl              Int       @db.Int
+  place             String    @db.VarChar(100) @unique
+
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+}
+
 enum UserType {
   ADMIN
   USER

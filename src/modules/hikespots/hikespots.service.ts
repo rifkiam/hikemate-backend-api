@@ -1,15 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { PrismaService } from '@/providers/prisma';
 
+import { DestinationDto } from './dtos/destination.dto';
 import { HikespotDto } from './dtos/hikespot.dto';
 
 @Injectable()
 export class HikespotsService {
-    constructor(
-        private readonly prismaService: PrismaService,
-        // private readonly botService: BotService
-    ) {}
+    constructor(private readonly prismaService: PrismaService) {}
 
     async getAllHikespots() {
         const hikespots = await this.prismaService.hike_spots.findMany({
@@ -61,6 +59,49 @@ export class HikespotsService {
         if (nearestSpots) {
             return nearestSpots;
         } else return 'No nearest spot found';
+    }
+
+    async getAllDestination() {
+        const dests = await this.prismaService.destinations.findMany();
+
+        return dests;
+    }
+
+    async createDestination(destDto: DestinationDto) {
+        const existing = await this.prismaService.destinations.findFirst({
+            where: {
+                place: destDto.place,
+            },
+        });
+
+        if (existing) {
+            throw new BadRequestException('Place name already exists!');
+        }
+
+        const newDest = await this.prismaService.destinations.create({
+            data: {
+                lat: destDto.lat,
+                long: destDto.lat,
+                place: destDto.place,
+                mdpl: destDto.mdpl,
+            },
+        });
+
+        return newDest;
+    }
+
+    async deleteDestination(id: string) {
+        const dests = await this.prismaService.destinations.delete({
+            where: {
+                id,
+            },
+        });
+        console.log(dests);
+        if (!dests) {
+            throw new BadRequestException("Place ID doesn't exist!");
+        }
+
+        return;
     }
 
     private calculateDistance(
