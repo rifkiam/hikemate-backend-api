@@ -3,6 +3,7 @@ import {
     Controller,
     Get,
     HttpCode,
+    Patch,
     Post,
     UseGuards,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import { JwtAuthGuard } from '@/common/guards/jwt';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
+import { UpdateDto } from './dtos/update.dto';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -44,6 +46,19 @@ export class AuthController {
     @ResponseMessage('Token valid')
     async validateToken(@Token('id') id: string) {
         const user = await this.authService.getUser(id);
+        return user;
+    }
+
+    @Patch('update')
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @HttpCode(200)
+    @ResponseMessage('Profile successfully updated')
+    async updateUser(
+        @Token('id') userId: string,
+        @Body() updateDto: UpdateDto,
+    ) {
+        const user = await this.authService.updateUser(userId, updateDto);
         return user;
     }
 }

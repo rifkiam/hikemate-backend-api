@@ -7,6 +7,7 @@ import { PrismaService } from '@/providers/prisma';
 
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
+import { UpdateDto } from './dtos/update.dto';
 
 @Injectable()
 export class AuthService {
@@ -96,5 +97,28 @@ export class AuthService {
             role: user_type,
             image_path: process.env.APP_URL + image_path,
         };
+    }
+
+    async updateUser(userId: string, updateDto: UpdateDto) {
+        const existingUser = await this.prismaService.users.findFirst({
+            where: {
+                id: userId,
+            },
+        });
+
+        if (!existingUser) {
+            throw new NotFoundException('User Not Found!');
+        }
+
+        const update = await this.prismaService.users.update({
+            where: { id: userId },
+            data: {
+                name: updateDto.name,
+                country: updateDto.country,
+                birth_date: updateDto.birth_date,
+            },
+        });
+
+        return update;
     }
 }
